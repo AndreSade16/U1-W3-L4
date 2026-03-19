@@ -1,3 +1,4 @@
+const extractionDiv = document.getElementById("extraction");
 const numberContainer = document.getElementById("number-container");
 const extractBtn = document.getElementById("extract-btn");
 const tableContainer = document.getElementById("table-container");
@@ -5,8 +6,10 @@ const title = document.querySelector("h1");
 const userTables = document.getElementById("user-tables");
 let playersNumInput = document.querySelector("input");
 const generateBtn = document.getElementById("generate-btn");
-const alreadyExtracted = [];
+const resetBtn = document.getElementById("reset-btn");
+let alreadyExtracted = [];
 let currentlyExtracted = 0;
+let isGameOver = false;
 
 for (let i = 1; i < 91; i++) {
   tableContainer.innerHTML += `
@@ -60,6 +63,19 @@ const generateUserTable = (num) => {
   numberContainer.innerText = "Extract the first number";
 };
 
+const reset = () => {
+  const allSelected = document.querySelectorAll(".selected");
+  allSelected.forEach((cell) => cell.classList.remove("selected"));
+  userTables.innerHTML = "";
+  title.innerText = "TOMBOLA!";
+  generateBtn.classList.toggle("hidden");
+  resetBtn.classList.toggle("hidden");
+  playersNumInput.classList.toggle("hidden");
+  numberContainer.innerText = "How many players?";
+  isGameOver = false;
+  alreadyExtracted = [];
+};
+
 generateBtn.addEventListener("click", () => {
   generateUserTable(playersNumInput.value);
 });
@@ -68,7 +84,10 @@ extractBtn.addEventListener("click", () => {
   if (alreadyExtracted.length === 89) {
     title.innerText = "Game Over!";
     numberContainer.innerText = "Game Over!";
-    return;
+    isGameOver = true;
+    resetBtn.addEventListener("click", reset);
+    extractBtn.classList.toggle("hidden");
+    resetBtn.classList.toggle("hidden");
   }
   registerAndDisplayNum();
   highlightNum(alreadyExtracted[alreadyExtracted.length - 1]);
