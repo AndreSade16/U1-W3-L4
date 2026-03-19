@@ -50,7 +50,7 @@ const generateUserTable = (num) => {
       }
       alreadyInTable.push(currentlyInTable);
       currentTable.innerHTML += `
-        <div class="table-cell number-${currentlyInTable}">
+        <div id="user-table-${i}" class="table-cell number-${currentlyInTable}">
             <h3 class="cell-number">${currentlyInTable}</h3>
         </div>
       `;
